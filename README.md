@@ -34,3 +34,12 @@ Support desk. Decision records: whoever signed them.
 ---
 
 Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
+
+## Added after the export
+
+- `src/routes/kb/incidents/4471-problems/+page.svx`: the problems inside #4471, one ticket each
+  ([issues](https://github.com/groozin/s01e03-what-it-shows/issues)). Signed `groozin`.
+- `src/lib/kb/problems.ts`, `src/lib/kb/ProblemTable.svelte`: the logic and the table behind it.
+- `build/`: the kb rendered as the desk sees it (`npm install && npm run build`).
+  The new page is `build/kb/incidents/4471-problems.html`; `kb-4471-problems.png` is a screenshot of it.
+- `package.json`, `vite.config.js`, `src/app.html`, `src/routes/+layout.js`: the build setup.

@@ -1,0 +1,57 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: groozin
+status: open
+reviewed: 2026-11-01
+signature: groozin
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/groozin/s01e03-what-it-shows/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day': `${repo}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its reports describe three
+problems. The queued parser fix closes only the first; the other two keep coming in after it ships.
+
+<Callout kind="warn">
+Not one issue. Each problem below has its own ticket, with the reports it covers.
+</Callout>
+
+## What the reports say
+
+<ProblemTable ticket={4471} {issues} />
+
+- **`parser`**: the shared parser reads dates month first, and every tenant on file writes the
+  day first. Day and month come out swapped, on every channel.
+- **`hint`**: booking-v3 prints `MM/DD/YYYY` under its date field. Day-first tenants on booking-v3
+  type the month first, as told, and the form reads it day first. Only through the form, only on
+  booking-v3. A parser fix does not reach it.
+- **`one-day`**: the booking moves by one day, or arrives a day early. A month-first parser swaps
+  day and month; it never moves a date by one day. The desk read these right
+  (`desk-notes.json`), then filed them under `parser` by tenant. Look at time zones and DST.
+
+## How these were counted
+
+- One report per id. The ticket export pages overlap, so some reports come twice.
+- The cause comes from the tenant (its locale and its booking form, `locales.ts`), not from the
+  intake tag. Intake guesses from the reporter's browser and disagrees on dozens of reports.
+- A report the desk read as a one-day move counts under its own problem, not under its tenant's cause.
+
+## The same reports, the way #4471 counts them
+
+<CauseTable ticket={4471} />
+
+## Why it happened
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject alone, and nobody reads the
+body. Reports with many different subjects ended up in one ticket because all of them say "wrong day". The
+subject tells you a date is wrong; the tenant, the channel and the body tell you why.
+
+<RenderStamp {signature} />
