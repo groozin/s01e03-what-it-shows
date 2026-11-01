@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 · two problems, not one'
+title: '#4471 · three problems, not one'
 owner: groozin
 status: open
 reviewed: 2026-11-01
@@ -16,8 +16,8 @@ signature: groozin
 </script>
 
 [#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Its own table says otherwise.
-The reports in it describe two problems. The queued parser fix closes only the first; the second
-keeps coming in after it ships.
+The reports in it describe three problems. The queued parser fix closes only the first; the other two
+keep coming in after it ships.
 
 <Callout kind="warn">
 Not one issue. Each problem below has its own ticket, with the reports it covers:
@@ -28,22 +28,25 @@ Not one issue. Each problem below has its own ticket, with the reports it covers
 
 <CauseTable ticket={4471} />
 
-## The two problems
+## The three problems
 
-- **The parser** (the `parser` row). The shared parser reads dates month first, and every tenant on
-  file writes the day first. Day and month come out swapped, on every channel.
+- **The parser** (the `parser` row, less the one-day moves in the note under the table). The shared
+  parser reads dates month first, and every tenant on file writes the day first. Day and month come
+  out swapped, on every channel.
 - **The booking-v3 date hint** (the `hint` row). booking-v3 prints `MM/DD/YYYY` under its date field.
   Day-first tenants on booking-v3 type the month first, as told, and the form reads it day first.
   Only through the form, only on booking-v3. A parser fix does not reach it. The table already says
-  it: not this ticket, no ticket of its own. Now it has one.
+  it: not this ticket, no ticket of its own.
+- **One-day moves** (the note under the table). The booking moves by one day, or arrives a day early.
+  A month-first parser swaps day and month; it never moves a date by one day. The desk read these
+  right (`desk-notes.json`), then filed them under `parser` by tenant. Look at time zones and DST.
 
-Each ticket counts what its row shows.
+## How the tickets count
 
-<Callout>
-The reports in the note under the table read as a one-day move, not a swap. They are filed under
-`parser` by tenant and counted there. A month-first parser never moves a date by one day, so when the
-parser fix ships, check whether they stop. If not, look at time zones and DST.
-</Callout>
+- One report per id. The ticket export pages overlap, so some reports come twice.
+- The cause comes from the tenant (its locale and its booking form, `locales.ts`), not from the
+  intake tag. Intake guesses from the reporter's browser.
+- Each report is in one ticket. A one-day move is in the one-day ticket, not the parser ticket.
 
 ## Why it happened
 
