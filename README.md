@@ -37,7 +37,7 @@ Exported 2026-10-04 from the `support` repo, `apps/kb/` → `src/`.
 
 ## Added after the export
 
-- `src/routes/kb/incidents/4471-problems/+page.svx`: the problems inside #4471, one ticket each
+- `src/routes/kb/incidents/4471-problems/+page.svx`: the two problems inside #4471, one ticket each
   ([issues](https://github.com/groozin/s01e03-what-it-shows/issues)). Signed `groozin`. It uses only
   the components in the export.
 - `build/`: the kb rendered as the desk sees it (`npm install && npm run build`).
