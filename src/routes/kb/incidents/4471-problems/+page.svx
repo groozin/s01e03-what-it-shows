@@ -42,7 +42,8 @@ Not one issue. Each problem below has its own ticket, with the reports it covers
 - One report per id. The ticket export pages overlap, so some reports come twice.
 - The cause comes from the tenant (its locale and its booking form, `locales.ts`), not from the
   intake tag. Intake guesses from the reporter's browser and disagrees on dozens of reports.
-- A report the desk read as a one-day move counts under its own problem, not under its tenant's cause.
+- A report the desk read as a one-day move is its own problem. As in the desk's own table, it still
+  counts under the cause it is filed under, so the counts add up to more than the reports.
 
 ## The same reports, the way #4471 counts them
 

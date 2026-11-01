@@ -33,7 +33,7 @@
     {#each groups as g (g.problem)}
       <tr>
         <td><code>{g.problem}</code></td>
-        <td>{g.reports.length}</td>
+        <td>{g.reports.length}{#if g.alsoIn.length}<span class="muted"> · {g.alsoIn.map((a) => `${a.count} also in ${a.problem}`).join(', ')}</span>{/if}</td>
         <td class="muted">{channels(g)}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
@@ -42,6 +42,9 @@
     {/each}
   </tbody>
 </table>
+
+<p class="muted">Counted the desk's way: a report counts under the cause it is filed under, and a one-day move counts there
+  too. Each problem is one ticket; the reports column is how many reports that ticket covers.</p>
 
 <style>
   .sum { font-size: 1.1rem; }
